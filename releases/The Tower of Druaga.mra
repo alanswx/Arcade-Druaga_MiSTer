@@ -1,0 +1,39 @@
+<misterromdescription>
+	<name>The Tower of Druaga (New Ver.)</name>
+	<mameversion>0227</mameversion>
+	<setname>todruaga</setname>
+	<mratimestamp>20210114232908</mratimestamp>
+	<year>1984</year>
+	<manufacturer>Namco</manufacturer>
+	<category>Adventure / Knights</category>
+	<category>Maze / Extra</category>
+	<rbf>druaga</rbf>
+	<mameinfo parent="0" cpp="mappy" input="todruaga"/>
+	<buttons names="Swing,-,Start 1P,Start 2P,Coin" default="A,Start,Select,R"/>
+	<display type="raster" rotate="90"/>
+	<switches default="04,FF,FF">
+		<dip bits="0,1" name="Cabinet" ids="Cocktail,Upright"></dip>
+		<dip bits="8,9" name="Lives" ids="5,1,2,3"></dip>
+		<dip bits="10,11" name="Coin A" ids="3c/1cr,1c/2cr,2c/1cr,1c/1cr"></dip>
+		<dip bits="12" name="Freeze" ids="On,Off"></dip>
+		<dip bits="13" name="Service Mode" ids="On,Off"></dip>
+		<dip bits="14,15" name="Coin B" ids="3c/1cr,1c/2cr,2c/1cr,1c/1cr"></dip>
+	</switches>
+	<rom index="0" zip="todruaga.zip" md5="none">
+		<part crc="fbf16299" name="td2_3.1d"/>
+		<part crc="b238d723" name="td2_1.1b"/>
+		<part crc="e827e787" name="td1_6.3m"/>
+		<part crc="e827e787" name="td1_6.3m"/>
+		<part crc="962bd060" name="td1_7.3n"/>
+		<part crc="962bd060" name="td1_7.3n"/>
+		<part crc="ae9d06d9" name="td1_4.1k"/>
+		<part crc="d32b249f" name="td1_5.3b"/>
+		<part crc="a86c74dd" name="td1-7.5k"/>
+		<part crc="8c661d6a" name="td1-6.4c"/>
+		<part crc="07104c40" name="td1-3.3m"/>
+		<part crc="122cc395" name="td1-5.5b"/>
+	</rom>
+	<rom index="1">
+		<part>01</part>
+	</rom>
+</misterromdescription>

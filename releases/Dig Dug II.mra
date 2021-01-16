@@ -1,0 +1,40 @@
+<misterromdescription>
+	<name>Dig Dug II (New Ver.)</name>
+	<mameversion>0227</mameversion>
+	<setname>digdug2</setname>
+	<mratimestamp>20210114232716</mratimestamp>
+	<year>1985</year>
+	<manufacturer>Namco</manufacturer>
+	<category>Maze / Digging</category>
+	<rbf>druaga</rbf>
+	<mameinfo parent="0" cpp="mappy" input="digdug2"/>
+	<display type="raster" rotate="90"/>
+	<buttons names="Inflator,Drill,Start 1P,Start 2P,Coin" default="A,B,Start,Select,R"/>
+	<switches default="04,FF,FF">
+		<dip bits="0,1" name="Cabinet" ids="Cocktail,Upright"></dip>
+		<dip bits="8" name="Service Mode" ids="On,Off"></dip>
+		<dip bits="9" name="Lives" ids="5,3"></dip>
+		<dip bits="10,11" name="Coinage" ids="3c/1cr,1c/2cr,2c/1cr,1c/1cr"></dip>
+		<dip bits="12,13" name="Bonus Life" ids="30k 150k and...,30k 120k and ...,30k 100k and ...,30k 80k and ..."></dip>
+		<dip bits="14" name="Level Select" ids="On,Off"></dip>
+		<dip bits="15" name="Freeze" ids="On,Off"></dip>
+	</switches>
+	<rom index="0" zip="digdug2.zip" md5="none">
+		<part crc="cc155338" name="d23_3.1d"/>
+		<part crc="40e46af8" name="d23_1.1b"/>
+		<part crc="df1f4ad8" name="d21_6.3m"/>
+		<part crc="ccadb3ea" name="d21_7.3n"/>
+		<part crc="737443b1" name="d21_4.1k"/>
+		<part crc="afcb4509" name="d21_5.3b"/>
+		<part crc="9c55feda" name="d21-7.5k"/>
+		<part crc="9c55feda" name="d21-7.5k"/>
+		<part crc="9c55feda" name="d21-7.5k"/>
+		<part crc="9c55feda" name="d21-7.5k"/>
+		<part crc="55a88695" name="d21-6.4c"/>
+		<part crc="e0074ee2" name="d21-3.3m"/>
+		<part crc="9b169db5" name="d21-5.5b"/>
+	</rom>
+	<rom index="1">
+		<part>03</part>
+	</rom>
+</misterromdescription>

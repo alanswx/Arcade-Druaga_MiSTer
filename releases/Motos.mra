@@ -1,16 +1,26 @@
 <misterromdescription>
 	<name>Motos</name>
-	<mameversion>0220</mameversion>
+	<mameversion>0227</mameversion>
 	<setname>motos</setname>
-	<mratimestamp>20200427161917</mratimestamp>
+	<mratimestamp>20210114231820</mratimestamp>
 	<year>1985</year>
 	<manufacturer>Namco</manufacturer>
 	<category>Maze</category>
 	<rbf>druaga</rbf>
-	<rom index="1">
-		<part>04</part>
-	</rom>
-	<rom index="0" zip="motos.zip" md5="446203961cff53598233d2c50db390d8">
+	<mameinfo parent="0" cpp="mappy" input="motos"/>
+	<display type="raster" rotate="90"/>
+	<buttons names="Button 1,Button 2,Start 1P,Start 2P,Coin" default="A,B,Start,Select,R"/>
+	<switches default="04,FF,FF">
+		<dip bits="2" name="Cabinet" ids="Cocktail,Upright"></dip>
+		<dip bits="7" name="Service Mode 1" ids="Off,On"></dip>
+		<dip bits="8" name="Service Mode 2" ids="Off,On"></dip>
+		<dip bits="9,10" name="Coinage" ids="3c/1cr,2c/1cr,1c/2cr,1c/1cr"></dip>
+		<dip bits="11" name="Lives" ids="5,3"></dip>
+		<dip bits="12" name="Difficulty" ids="Rank B,Rank A"></dip>
+		<dip bits="13,14" name="Bonus Life" ids="20k 70k,30k and E70k,20k and E50k,10k 30k and E50k"></dip>
+		<dip bits="15" name="Demo Sounds" ids="Off,On"></dip>
+	</switches>
+	<rom index="0" zip="motos.zip" md5="none">
 		<part crc="1104abb2" name="mo1_3.1d"/>
 		<part crc="57b157e2" name="mo1_1.1b"/>
 		<part crc="2f0e396e" name="mo1_6.3m"/>
@@ -24,5 +34,8 @@
 		<part crc="730ba7fb" name="mo1-6.4c"/>
 		<part crc="2accdfb4" name="mo1-3.3m"/>
 		<part crc="71972383" name="mo1-5.5b"/>
+	</rom>
+	<rom index="1">
+		<part>04</part>
 	</rom>
 </misterromdescription>

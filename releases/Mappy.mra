@@ -1,17 +1,29 @@
 <misterromdescription>
 	<name>Mappy (US)</name>
-	<mameversion>0220</mameversion>
+	<mameversion>0227</mameversion>
 	<setname>mappy</setname>
-	<mratimestamp>20200427161917</mratimestamp>
+	<mratimestamp>20210114233346</mratimestamp>
 	<year>1983</year>
 	<manufacturer>Namco</manufacturer>
-	<category>Maze, Cat and Mouse</category>
+	<category>Maze / Cat and Mouse</category>
 	<category>Platform</category>
 	<rbf>druaga</rbf>
-	<rom index="1">
-		<part>02</part>
-	</rom>
-	<rom index="0" zip="mappy.zip" md5="b276d97b0dc61ca668d140793fac44bf">
+	<buttons names="Door Button,-,Start 1P,Start 2P,Coin" default="A,Start,Select,R"/>
+	<mameinfo parent="0" cpp="mappy" input="mappy"/>
+	<display type="raster" rotate="90"/>
+	<switches default="0C,FF,37">
+		<dip bits="0,2" name="Cabinet" ids="Cocktail,Upright"></dip>
+		<dip bits="3" name="Service Mode" ids="On,Off"></dip>
+		<dip bits="8,10" name="Difficulty" ids="Rank H,Rank G,Rank F,Rank E,Rank D,Rank C,Rank B,Rank A"></dip>
+		<dip bits="11,12" name="Coin B" ids="2c/1cr,1 Coin/7 Credits,1c/5cr,1c/1cr"></dip>
+		<dip bits="13" name="Demo Sounds" ids="Off,On"></dip>
+		<dip bits="14" name="Rack Test (Cheat)" ids="On,Off"></dip>
+		<dip bits="15" name="Freeze" ids="On,Off"></dip>
+		<dip bits="16,18" name="Coin A" ids="3 Coins/2 Credits,3c/1cr,2c/3cr,2c/1cr,1c/6cr,1c/3cr,1c/2cr,1c/1cr"></dip>
+		<dip bits="19,21" name="Bonus Life" ids="None,20k, 80k &amp; Every 80k,40k, 120k &amp; Every 120k,20k, 70k &amp; Every 70k,30k, 100k &amp; Every 100k,20k Only,40k Only,30k &amp; 100k Only,30k Only,20k &amp; 80k Only,30k &amp; 120k Only,20k &amp; 60k Only,30k &amp; 100k Only,20k &amp; 70k Only,30k &amp; 80k Only"></dip>
+		<dip bits="22,23" name="Lives" ids="2,1,5,3"></dip>
+	</switches>
+	<rom index="0" zip="mappy.zip" md5="none">
 		<part crc="52e6c708" name="mpx_3.1d"/>
 		<part crc="52e6c708" name="mpx_3.1d"/>
 		<part crc="a958a61c" name="mp1_2.1c"/>
@@ -29,5 +41,8 @@
 		<part crc="50765082" name="mp1-6.4c"/>
 		<part crc="16a9166a" name="mp1-3.3m"/>
 		<part crc="56531268" name="mp1-5.5b"/>
+	</rom>
+	<rom index="1">
+		<part>02</part>
 	</rom>
 </misterromdescription>
