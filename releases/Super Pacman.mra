@@ -1,0 +1,52 @@
+<misterromdescription>
+	<name>Super Pacman</name>
+	<mameversion>0220</mameversion>
+	<setname>superpac</setname>
+	<mratimestamp>20210307</mratimestamp>
+	<rbf>druaga</rbf>
+	<rom index="1">
+		<part>05</part>
+	</rom>
+	<switches default="00,00,00">
+		<dip bits="0,3" name="Difficulty" ids="0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F"></dip>
+		<dip bits="4,5" name="Coin B" ids="2c/1cr,1 Coin/7 Credits,1c/5cr,1c/1cr"></dip>
+		<dip bits="6" name="Demo Sounds" ids="Off,On"></dip>
+		<dip bits="7" name="Freeze" ids="Off,On"></dip>
+		<dip bits="8,10" name="Coin A" ids="3 Coins/2 Credits,3c/1cr,2c/3cr,2c/1cr,1c/6cr,1c/3cr,1c/2cr,1c/1cr"></dip>
+		<dip bits="11,12,13" name="Bonus Life" ids="None,20k, 80k &amp; Every 80k,40k, 120k &amp; Every 120k,20k, 70k &amp; Every 70k,30k, 100k &amp; Every 100k,20k Only,40k Only,30k &amp; 100k Only,30k Only,20k &amp; 80k Only,30k &amp; 120k Only,20k &amp; 60k Only,30k &amp; 100k Only,20k &amp; 70k Only,30k &amp; 80k Only"></dip>
+		<dip bits="14,15" name="Lives" ids="5,2,1,3"></dip>
+<!-- 16,17 -->
+		<dip bits="18,19" name="Cabinet" ids="Cocktail,Upright"></dip>
+		<dip bits="20" name="Service Mode" ids="On,Off"></dip>
+	</switches>
+	<buttons names="-,-,Start 1P,Start 2P,Coin" default="Start,Select,R"/>
+
+	<rom index="0" zip="superpac.zip" md5="None">
+		<!-- main CPU -->
+		<part repeat="0x4000"> FF </part>
+		<part name="sp1-2.1c"/>
+		<part name="sp1-1.1b"/>
+
+		<!-- GFX2 -->
+		<part name="spv-2.3f"/>
+		<part name="spv-2.3f"/>
+		<part name="spv-2.3f"/>
+		<part name="spv-2.3f"/>
+
+		<!-- sound CPU -->
+		<part repeat="0x1000"> FF </part>
+		<part name="spc-3.1k"/>
+
+		<!-- GFX1 -->
+		<part name="sp1-6.3c"/>
+
+		<part name="superpac.3l"/>
+		<part name="superpac.3l"/>
+		<part name="superpac.3l"/>
+		<part name="superpac.3l"/>
+
+		<part name="superpac.4e"/>
+		<part name="superpac.3m"/>
+		<part name="superpac.4c"/>
+	</rom>
+</misterromdescription>

@@ -142,15 +142,17 @@ reg mod_druaga = 0;
 reg mod_digdug = 0;
 reg mod_mappy  = 0;
 reg mod_motos  = 0;
+reg mod_pac   = 0;
 
+reg [7:0] mod = 0;
 always @(posedge clk_sys) begin
-	reg [7:0] mod = 0;
 	if (ioctl_wr & (ioctl_index==1)) mod <= ioctl_dout;
 	
 	mod_druaga <= (mod == 1);
 	mod_mappy <= (mod == 2);
 	mod_digdug <= (mod == 3);
 	mod_motos <= (mod == 4);
+	mod_pac <= (mod == 5);
 	
 end
 
@@ -163,13 +165,15 @@ always @(posedge clk_sys) if (ioctl_wr && (ioctl_index==254) && !ioctl_addr[24:3
 
 wire clk_48M;
 wire clk_hdmi = clk_48M;
+wire clock_48 = clk_48M;
 wire clk_sys = clk_48M;
-
+wire clock_6;
 pll pll
 (
 	.rst(0),
 	.refclk(CLK_50M),
-	.outclk_0(clk_48M)
+	.outclk_0(clk_48M),
+	.outclk_1(clock_6)
 );
 
 ///////////////////////////////////////////////////
@@ -267,7 +271,7 @@ arcade_video #(288,12) arcade_video
 
 	.clk_video(clk_hdmi),
 
-	.RGB_in({r,g,b}),
+	.RGB_in(POUT),
 	.HBlank(hblank),
 	.VBlank(vblank),
 	.HSync(~hs),
@@ -277,12 +281,19 @@ arcade_video #(288,12) arcade_video
 );
 
 wire			PCLK;
+wire			PCLK_EN;
 wire  [8:0] HPOS,VPOS;
 wire [11:0] POUT;
-HVGEN hvgen
-(
-	.HPOS(HPOS),.VPOS(VPOS),.PCLK(PCLK),.iRGB(POUT),
-	.oRGB({b,g,r}),.HBLK(hblank),.VBLK(vblank),.HSYN(hs),.VSYN(vs)
+hvgen hvgen(
+	.MCLK(clock_48),
+	.HPOS(HPOS),
+	.VPOS(VPOS),
+	.PCLK(PCLK),
+	.PCLK_EN(PCLK_EN),
+	.HBLK(hblank),
+	.VBLK(vblank),
+	.HSYN(hs),
+	.VSYN(vs)
 );
 assign ce_vid = PCLK;
 
@@ -304,10 +315,61 @@ wire	[2:0]	INP2 = { (m_coin1|m_coin2), m_start2, m_start1 };
 wire  [7:0] oPIX;
 wire  [7:0] oSND;
 
+wire [14:0] rom_addr;
+wire [7:0] rom_do;
+wire [12:0] snd_addr;
+wire [7:0] snd_do;
+/*
+ROM map
+00000-07FFF   cpu0     32k 3.1d+1.1b (+2.1c in Mappy)
+08000-0BFFF   spchip0  16k 6.3m
+0C000-0FFFF   spchip1  16k 7.3m
+10000-11FFF   cpu1      8k 4.1k
+12000-12FFF   bgchip    4k 5.3b
+13000-133FF   spclut    1k 7.5k
+13400-134FF   bgclut  256b 6.4c
+13500-135FF   wave    256b 3.3m
+13600-1361F   palet    32b 5.5b
+*/wire rom_dl = ioctl_addr < 'h08000;
+dpram  #(.dwidth(8),.awidth(15)) rom
+(
+		.clk_a(clk_sys),
+		.we_a(ioctl_wr & ioctl_index==0 && rom_dl),
+		.addr_a(ioctl_addr[14:0]),
+		.d_a(ioctl_dout),
+
+		.clk_b(clk_sys),
+		.we_b(1'b0),
+		.addr_b(rom_addr),
+		.q_b(rom_do)
+	);
+wire snd_dl = ioctl_addr >= 'h08000 && ioctl_addr <'h10000;
+dpram  #(.dwidth(8),.awidth(15)) snd_rom
+(
+		.clk_a(clk_sys),
+		.we_a(ioctl_wr & ioctl_index==0 && snd_dl),
+		.addr_a(ioctl_addr[14:0]),
+		.d_a(ioctl_dout),
+
+		.clk_b(clk_sys),
+		.we_b(1'b0),
+		.addr_b(snd_addr),
+		.q_b(snd_do)
+	);
+	
+	
+wire [1:0] dtLives	 = status[9:8];
+
+wire [7:0] tDSW0 = {2'd0,dtLives,4'd0};
+wire [7:0] tDSW1 = {1'b0,6'd0,1'b0};
+wire [7:0] tDSW2 = {tDSW1[3:0],1'b0,3'd0};
+	
 fpga_druaga GameCore ( 
 	.RESET(iRST),
+	.CLKCPUx2(clock_6),
 	.MCLK(clk_48M),
 	.PH(HPOS),.PV(VPOS),.PCLK(PCLK),.POUT(oPIX),
+	.PCLK_EN(PCLK_EN),
 	.SOUT(oSND),
 
 	.INP0(INP0),
@@ -316,9 +378,24 @@ fpga_druaga GameCore (
 	.DSW0(sw[0]),
 	.DSW1(sw[1]),
 	.DSW2(sw[2]),
+
+
+
+	.rom_addr(rom_addr),
+	.rom_data(rom_do),
+	.snd_addr(snd_addr),
+	.snd_data(snd_do),
+
 	
-	.ROMCL(clk_sys),.ROMAD(ioctl_addr),.ROMDT(ioctl_dout),.ROMEN(ioctl_wr & (ioctl_index == 0))
+	//.ROMCL(clk_sys),
+	.ROMAD(ioctl_addr),.ROMDT(ioctl_dout),.ROMEN(ioctl_wr & (ioctl_index == 0)),
+	
+	.MODEL(mod[2:0])
+
+	
 );
+
+
 
 assign POUT = {oPIX[7:6],2'b00,oPIX[5:3],1'b0,oPIX[2:0],1'b0};
 assign AOUT = {oSND,8'h0};
@@ -326,45 +403,4 @@ assign AOUT = {oSND,8'h0};
 endmodule
 
 
-module HVGEN
-(
-	output  [8:0]		HPOS,
-	output  [8:0]		VPOS,
-	input 				PCLK,
-	input	 [11:0]		iRGB,
-
-	output reg [11:0]	oRGB,
-	output reg			HBLK = 1,
-	output reg			VBLK = 1,
-	output reg			HSYN = 1,
-	output reg			VSYN = 1
-);
-
-reg [8:0] hcnt = 0;
-reg [8:0] vcnt = 0;
-
-assign HPOS = hcnt;
-assign VPOS = vcnt;
-
-always @(posedge PCLK) begin
-	case (hcnt)
-		  1: begin HBLK <= 0; hcnt <= hcnt+1; end
-		290: begin HBLK <= 1; hcnt <= hcnt+1; end
-		311: begin HSYN <= 0; hcnt <= hcnt+1; end
-		342: begin HSYN <= 1; hcnt <= 471;    end
-		511: begin hcnt <= 0;
-			case (vcnt)
-				223: begin VBLK <= 1; vcnt <= vcnt+1; end
-				234: begin VSYN <= 0; vcnt <= vcnt+1; end
-				241: begin VSYN <= 1; vcnt <= 491;    end
-				511: begin VBLK <= 0; vcnt <= 0;	     end
-				default: vcnt <= vcnt+1;
-			endcase
-		end
-		default: hcnt <= hcnt+1;
-	endcase
-	oRGB <= (HBLK|VBLK) ? 12'h0 : iRGB;
-end
-
-endmodule
 
